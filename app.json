@@ -1,0 +1,17 @@
+{
+  "name": "questions-flash-cards",
+  "displayName": "questions-flash-cards",
+  "expo": {
+    "name": "questions-flash-cards",
+    "slug": "questions-flash-cards",
+    "version": "1.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
