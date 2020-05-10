@@ -24,6 +24,7 @@
 
 # Data
 ## Deck Sample
+* Deck Title is unique.
 ```javascript
 {
   React: {

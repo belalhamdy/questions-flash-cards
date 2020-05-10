@@ -1,11 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+// @ts-ignore
+import DeckView from './components/deck/DeckView'
+// @ts-ignore
+import AddQuestion from './components/deck/AddQuestion'
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App to start working on your app!</Text>
-    </View>
+   <AddQuestion/>
   );
 }
 
