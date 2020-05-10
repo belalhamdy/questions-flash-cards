@@ -4,10 +4,13 @@ import { StyleSheet, Text, View } from 'react-native';
 import DeckView from './components/deck/DeckView'
 // @ts-ignore
 import AddQuestion from './components/deck/AddQuestion'
+// @ts-ignore
+import AddDeck from './components/deck/AddDeck'
 
 export default function App() {
   return (
-   <AddQuestion/>
+      // TODO Test Add deck and test again deck view
+   <AddDeck/>
   );
 }
 

@@ -24,7 +24,6 @@ class AddQuestion extends Component {
                 this.setState({buttonDisable: (this.state.question === "" || this.state.answer === "")})
             });
         }
-        this.setState({buttonDisable: (this.state.question === "" || this.state.answer === "")})
     };
 
 
@@ -50,12 +49,6 @@ class AddQuestion extends Component {
                 />
 
                 <View style={styles.separator}/>
-                <TouchableOpacity
-                    disabled={true}
-                    color={COLORS.blue}
-                    title="Add Question"
-                    onPress={this.handleAddQuestion}/>
-
                 <TouchableOpacity disabled={this.state.buttonDisable}
                                   style={this.state.buttonDisable ? styles.disabledQuestion : styles.addQuestion}>
                     <Text style={styles.buttonText}>Add Question</Text>
