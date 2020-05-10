@@ -8,6 +8,7 @@ const COLORS = {
     lightgreen: '#82E0AA',
     darkblue: '#283747',
     grey: '#D5D8DC',
+    darkgrey: '#494c50',
 };
 
 export default COLORS;

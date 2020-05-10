@@ -9,9 +9,12 @@ import AddQuestion from './components/deck/AddQuestion'
 // @ts-ignore
 import AddDeck from './components/deck/AddDeck'
 
+// @ts-ignore
+import DecksList from './components/deck/DecksList'
+
 export default function App() {
   return (
-   <QuizView/>
+   <DecksList/>
   );
 }
 

@@ -51,7 +51,8 @@ class AddQuestion extends Component {
                 <View style={styles.separator}/>
                 <TouchableOpacity disabled={this.state.buttonDisable}
                                   style={this.state.buttonDisable ? styles.disabledQuestion : styles.addQuestion}>
-                    <Text style={styles.buttonText}>Add Question</Text>
+                    <Text style={styles.buttonText}
+                    onPress={this.handleAddQuestion}>Add Question</Text>
                 </TouchableOpacity>
 
             </View>
