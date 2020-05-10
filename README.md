@@ -1,3 +1,8 @@
+# Photos
+<img src = "gitImages/1.png">
+<img src = "gitImages/2.png">
+<img src = "gitImages/3.png">
+
 # Prerequisites  
 * Android Studio.
 * Node Server.
