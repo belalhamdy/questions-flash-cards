@@ -14,45 +14,35 @@ import React, {Component} from "react";
 import * as Constants from "expo-constants";
 import COLORS from "../../utils/COLORS";
 import DeckListItem from "./DeckListItem";
+import {connect} from 'react-redux'
+import {AppLoading} from 'expo'
+import {getAllEntries} from "../../utils/api";
+import {receiveDecks} from "../../actions";
 
-
-const decks = {
-    React: {
-        title: 'React',
-        questions: [
-            {
-                question: 'What is React?',
-                answer: 'A library for managing user interfaces'
-            },
-            {
-                question: 'Where do you make Ajax requests in React?',
-                answer: 'The componentDidMount lifecycle event'
-            }
-        ]
-    },
-    JavaScript: {
-        title: 'JavaScript',
-        questions: [
-            {
-                question: 'What is a closure?',
-                answer: 'The combination of a function and the lexical environment within which that function was declared.'
-            }
-        ]
-    }
-};
 
 // takes all decks
 class DecksList extends Component {
+    state = {
+        ready: false,
+    };
+
+    componentDidMount() {
+        const {dispatch} = this.props;
+        getAllEntries().then((decks) => dispatch(receiveDecks(decks))).then(() => this.setState(() => ({ready: true})))
+    }
+
     render() {
-        // TODO Uncomment below
-        //const {decks} = this.props;
+        const {decks} = this.props;
+        if (!this.state.ready) return <Text>Waiting</Text>;
         return (
-            <ScrollView style = {styles.container}>
-                {Object.keys(decks).map((deck) => {
-                    return <View key = {deck}><DeckListItem key = {deck} deck = {decks[deck]} navigation = {this.props.navigation}/><View style={styles.separator}/>
-                    </View>;
-                })}
-            </ScrollView >
+                <ScrollView style={styles.container}>
+                    {Object.keys(decks).map((deck) => {
+                        return <View key={deck}><DeckListItem key={deck} deck={decks[deck]}
+                                                              navigation={this.props.navigation}/><View
+                            style={styles.separator}/>
+                        </View>;
+                    })}
+                </ScrollView>
         );
     }
 }
@@ -80,4 +70,11 @@ const styles = StyleSheet.create({
         borderBottomWidth: StyleSheet.hairlineWidth,
     },
 });
-export default DecksList;
+
+function mapStateToProps(decks) {
+    return {
+        decks
+    }
+}
+
+export default connect(mapStateToProps,)(DecksList)

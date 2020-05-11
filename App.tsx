@@ -4,23 +4,30 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // @ts-ignore
 import TabNavigator from './components/Navigators'
-// @ts-ignore
 import DeckView from './components/deck/DeckView'
-// @ts-ignore
 import QuizView from './components/QuizView'
-// @ts-ignore
 import AddQuestion from './components/deck/AddQuestion'
-// @ts-ignore
 import AddDeck from './components/deck/AddDeck'
 
-// @ts-ignore
 import DecksList from './components/deck/DecksList'
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+import reducer from './reducers'
 
+import {initializeData} from "./utils/api";
+export default class App extends React.Component{
+    componentDidMount(): void {
+        initializeData()
+    }
 
-export default function App() {
-  return (
-      <TabNavigator/>
-  );
+    render(){
+      return (
+          <Provider store={createStore(reducer)}>
+                  <TabNavigator/>
+          </Provider>
+
+      );
+  }
 }
 
 const styles = StyleSheet.create({
