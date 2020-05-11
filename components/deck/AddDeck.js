@@ -10,16 +10,18 @@ class AddDeck extends Component {
         text: '',
     };
     handleAddDeck = () => {
-        // TODO handle add deck
+        // TODO handle add
+
+        this.setState({text: "", buttonDisable: true});
+        this.textInput.clear();
+        this.props.navigation.navigate('DecksList')
     };
     onChangeText = (text) => {
-        this.setState({text: text, buttonDisable: text === "" })
+        this.setState({text: text, buttonDisable: text === ""})
     };
 
 
     render() {
-
-        const title = "Deck";
 
         return (
             <View style={styles.container}>
@@ -27,6 +29,7 @@ class AddDeck extends Component {
                 <View style={styles.separator}/>
 
                 <TextInput
+                    ref={input => { this.textInput = input }}
                     style={styles.textInput}
                     onChangeText={text => this.onChangeText(text)}
                     placeholder={"Deck Title"}
@@ -34,7 +37,8 @@ class AddDeck extends Component {
                 <View style={styles.separator}/>
 
                 <TouchableOpacity disabled={this.state.buttonDisable}
-                                  style={this.state.buttonDisable ? styles.disabled : styles.add}>
+                                  style={this.state.buttonDisable ? styles.disabled : styles.add}
+                                  onPress={this.handleAddDeck} keyboardShouldPersistTaps={'handled'}>
                     <Text style={styles.buttonText}>Add Deck</Text>
                 </TouchableOpacity>
 

@@ -2,24 +2,27 @@ import {Alert, View, StyleSheet, Platform, TouchableOpacity, FlatList, Text, But
 import React, {Component} from "react";
 import * as Constants from "expo-constants";
 import COLORS from "../../utils/COLORS";
+
 // takes the deck
 class DeckView extends Component {
     handleAddQuestion = () => {
-        // TODO handle add question
+        this.props.navigation.navigate('AddQuestion',{
+            title: this.props.route.params.deck.title
+        })
     };
     handleStartQuiz = () => {
-        // TODO handle start quiz
+        this.props.navigation.navigate('Quiz',{
+            deck: this.props.route.params.deck
+        })
     };
     handleDeleteDeck = () => {
-        // TODO Delete Deck
+// TODO
     };
 
     render() {
-        // TODO Uncomment below
-        /*const {title,questions} = this.props.deck;
-        const count =  questions.length;*/
-        const title = "Deck";
-        const count = 5;
+        const deck = this.props.route.params.deck;
+        const {title,questions} = deck;
+        const count =  questions.length;
 
         const questionsWord = count === 1 ? "Question" : "Questions";
         return (

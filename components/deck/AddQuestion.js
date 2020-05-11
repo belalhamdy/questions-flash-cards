@@ -2,6 +2,13 @@ import {Alert, View, StyleSheet, Platform, TouchableOpacity, FlatList, Text, But
 import React, {Component} from "react";
 import * as Constants from "expo-constants";
 import COLORS from "../../utils/COLORS";
+//import { StackActions } from '@react-navigation/native';
+import { NavigationActions, StackActions } from 'react-navigation';
+const resetAction = StackActions.reset({
+    index: 0,
+    key: null,
+    actions: [NavigationActions.navigate({ routeName: 'DecksList' })],
+});
 
 // takes the title of deck only
 class AddQuestion extends Component {
@@ -12,6 +19,8 @@ class AddQuestion extends Component {
     };
     handleAddQuestion = () => {
         // TODO handle add question
+
+        this.props.navigation.navigate('DecksList')
     };
     onChangeText = (text, type) => {
         if (type === "q") {
@@ -28,12 +37,10 @@ class AddQuestion extends Component {
 
 
     render() {
-        // TODO Uncomment below
-        //const {title} = this.props;
-        const title = "Deck";
+        const title = this.props.route.params.title;
 
         return (
-            <View style={styles.container}>
+            <View style={styles.container} >
                 <Text style={styles.title}>Add to {title}</Text>
                 <View style={styles.separator}/>
                 <TextInput
@@ -49,7 +56,7 @@ class AddQuestion extends Component {
                 />
 
                 <View style={styles.separator}/>
-                <TouchableOpacity disabled={this.state.buttonDisable}
+                <TouchableOpacity disabled={this.state.buttonDisable} keyboardShouldPersistTaps={'handled'}
                                   style={this.state.buttonDisable ? styles.disabledQuestion : styles.addQuestion}>
                     <Text style={styles.buttonText}
                     onPress={this.handleAddQuestion}>Add Question</Text>

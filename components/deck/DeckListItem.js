@@ -2,11 +2,15 @@ import {Alert, View, StyleSheet, Platform, TouchableOpacity, FlatList, Text, But
 import React, {Component} from "react";
 import * as Constants from "expo-constants";
 import COLORS from "../../utils/COLORS";
+import { useNavigation } from '@react-navigation/native';
 
 // takes Deck
 class DeckListItem extends Component {
     handleGoToDeck = () => {
-      // TODO go to deck
+        const {navigation,deck} = this.props;
+        navigation.navigate('Deck', {
+            deck: deck
+        });
     };
     render() {
         const {title, questions} = this.props.deck;

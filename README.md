@@ -14,7 +14,8 @@
     * `C:\Users\USER\AppData\Roaming\npm`.
 * Open android studio and create new virtual device.
 
-
+# Clean Cache
+* If you are facing problems please try to clean cache `npm start -- --reset-cache`.
 # Create a New Project
 * In powershell type `create-react-native-app {project name}`.
 

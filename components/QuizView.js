@@ -6,6 +6,7 @@ import COLORS from "../utils/COLORS";
 // takes the deck
 class QuizView extends Component {
     componentDidMount() {
+
     }
 
     state = {
@@ -19,7 +20,7 @@ class QuizView extends Component {
     };
     gotoNextQuestion = () => {
         this.setState({showAnswer: false, currentIndex: this.state.currentIndex + 1}, () =>
-        {this.setState({finish: this.state.currentIndex >= this.props.deck.questions.length})});
+        {this.setState({finish: this.state.currentIndex >= this.props.route.params.deck.questions.length})});
     };
     handleCorrect = () => {
         this.setState({correct: this.state.correct + 1}, this.gotoNextQuestion);
@@ -31,28 +32,53 @@ class QuizView extends Component {
         this.setState({correct: 0, showAnswer: false, currentIndex: 0, finish: false})
     };
     handleGoToHome = () => {
-        // TODO
+        this.props.navigation.navigate('DecksList')
     };
     handleGoToDeck = () => {
-        // TODO
+        const {navigation} = this.props;
+        this.props.navigation.goBack(null);
     };
     render() {
-        // TODO Uncomment below
-        /*const {title,questions} = this.props.deck;
-        const current = questions[currentIndex];
-        const length = questions.length;
-        */
+
+
         const {currentIndex, showAnswer, finish, correct} = this.state;
 
+        const {title,questions} = this.props.route.params.deck;
+        const length = questions.length;
 
-        const title = "Deck";
-        length = 5;
-        const current = {
-            question: 'Where do you make Ajax requests in React?',
-            answer: 'The componentDidMount lifecycle event'
-        };
+        if (finish) return (
+            <View style={styles.container}>
+                <Text>Finish</Text>
+                <Text style={styles.title}>{title}</Text>
+                <Text style={styles.title}>You have solved {correct} questions!!</Text>
+                <View style={styles.separator}/>
+                <View style={styles.container}>
+                    <TouchableOpacity onPress={this.handleAgain} style={styles.show}>
+                        <Text style={styles.buttonText}>Again</Text>
+                    </TouchableOpacity>
 
-        const {question, answer} = current;
+                    <View style={styles.separator}/>
+
+                    <TouchableOpacity onPress={this.handleGoToDeck} style={styles.show}>
+                        <Text style={styles.buttonText}>Go to Deck </Text>
+                    </TouchableOpacity>
+
+                    <View style={styles.separator}/>
+
+                    <TouchableOpacity onPress={this.handleGoToHome} style={styles.show}>
+                        <Text style={styles.buttonText}>Home</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        );
+        let question = "Not Available";
+        let answer = "Not Available";
+        if (currentIndex < length) {
+            const current = questions[currentIndex];
+            question = current.question;
+            answer = current.answer;
+        }
+
         const questionsWord = length === 1 ? "Question" : "Questions";
         if (length === 0){
             return (
@@ -73,31 +99,7 @@ class QuizView extends Component {
                     </View>
             )
         }
-        else if (finish) return (
-            <View style={styles.container}>
-                <Text>Finish</Text>
-                <Text style={styles.title}>{title}</Text>
-                <Text style={styles.title}>You have solved {correct} questions!!</Text>
-                <View style={styles.separator}/>
-                <View style={styles.container}>
-                    <TouchableOpacity onPress={this.handleAgain} style={styles.show}>
-                        <Text style={styles.buttonText}>Again</Text>
-                    </TouchableOpacity>
 
-                    <View style={styles.separator}/>
-
-                    <TouchableOpacity onPress={this.handleGoToDeck} style={styles.show}>
-                        <Text style={styles.buttonText}>Go to Deck </Text>
-                    </TouchableOpacity>
-
-                   <View style={styles.separator}/>
-
-                   <TouchableOpacity onPress={this.handleGoToHome} style={styles.show}>
-                        <Text style={styles.buttonText}>Home</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-        );
         else return (
             <View style={styles.container}>
                 <Text>Question {currentIndex + 1} out of {length} {questionsWord}</Text>

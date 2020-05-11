@@ -1,4 +1,15 @@
-import {Alert, View, StyleSheet, Platform, TouchableOpacity, FlatList, Text, Button, TextInput} from 'react-native'
+import {
+    Alert,
+    View,
+    StyleSheet,
+    Platform,
+    TouchableOpacity,
+    FlatList,
+    Text,
+    Button,
+    TextInput,
+    ScrollView
+} from 'react-native'
 import React, {Component} from "react";
 import * as Constants from "expo-constants";
 import COLORS from "../../utils/COLORS";
@@ -36,9 +47,9 @@ class DecksList extends Component {
         // TODO Uncomment below
         //const {decks} = this.props;
         return (
-            <ScrollView >
+            <ScrollView style = {styles.container}>
                 {Object.keys(decks).map((deck) => {
-                    return <View key = {deck}><DeckListItem key = {deck} deck = {decks[deck]}/><View style={styles.separator}/>
+                    return <View key = {deck}><DeckListItem key = {deck} deck = {decks[deck]} navigation = {this.props.navigation}/><View style={styles.separator}/>
                     </View>;
                 })}
             </ScrollView >
@@ -47,6 +58,10 @@ class DecksList extends Component {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        marginTop: Constants.statusBarHeight,
+    },
     title: {
         fontSize: 20,
         textAlign: 'center',
