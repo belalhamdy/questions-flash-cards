@@ -28,7 +28,9 @@ class DecksList extends Component {
 
     componentDidMount() {
         const {dispatch} = this.props;
+
         getAllEntries().then((decks) => dispatch(receiveDecks(decks))).then(() => this.setState(() => ({ready: true})))
+
     }
 
     render() {
@@ -37,7 +39,7 @@ class DecksList extends Component {
         return (
                 <ScrollView style={styles.container}>
                     {Object.keys(decks).map((deck) => {
-                        return <View key={deck}><DeckListItem key={deck} deck={decks[deck]}
+                        return <View key={deck}><DeckListItem key={deck} deck={deck}
                                                               navigation={this.props.navigation}/><View
                             style={styles.separator}/>
                         </View>;

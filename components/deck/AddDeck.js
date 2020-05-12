@@ -2,6 +2,9 @@ import {Alert, View, StyleSheet, Platform, TouchableOpacity, FlatList, Text, But
 import React, {Component} from "react";
 import * as Constants from "expo-constants";
 import COLORS from "../../utils/COLORS";
+import {removeDeck, submitDeck} from "../../utils/api";
+import {connect} from "react-redux";
+import {addDeck} from "../../actions";
 
 // takes nothing
 class AddDeck extends Component {
@@ -10,11 +13,16 @@ class AddDeck extends Component {
         text: '',
     };
     handleAddDeck = () => {
-        // TODO handle add
+        // TODO: check if the deck is exists
+        const deck = this.state.text;
+        const {dispatch} = this.props;
+        submitDeck(deck).then(() => {
+            dispatch(addDeck(deck));
+            this.setState({text: "", buttonDisable: true});
+            this.textInput.clear();
+            this.props.navigation.navigate('DecksList')
+        })
 
-        this.setState({text: "", buttonDisable: true});
-        this.textInput.clear();
-        this.props.navigation.navigate('DecksList')
     };
     onChangeText = (text) => {
         this.setState({text: text, buttonDisable: text === ""})
@@ -84,4 +92,4 @@ const styles = StyleSheet.create({
         borderBottomWidth: StyleSheet.hairlineWidth,
     },
 });
-export default AddDeck;
+export default connect()(AddDeck);

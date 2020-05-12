@@ -1,6 +1,9 @@
+import {exp} from "react-native-reanimated";
+import {initializeDeck, removeDeck} from "../utils/api";
+
 export const RECEIVE_DECKS = "RECEIVE_DECKS";
 export const DELETE_DECK = "DELETE_DECK";
-export const GET_DECK = "GET_DECK";
+export const ADD_DECK = "ADD_DECK";
 export const ADD_QUESTION = "ADD_QUESTION";
 
 
@@ -17,19 +20,26 @@ export function deleteDeck(deckKey) {
         deckKey,
     }
 }
-
-export function getDeck(deckKey) {
+export function addDeck(deckKey){
     return {
-        type: GET_DECK,
+        type: ADD_DECK,
         deckKey,
+        deck: initializeDeck(deckKey)
+    }
+}
+export function addQuestion(question, answer, deckKey) {
+    return {
+        type: ADD_QUESTION,
+        deckKey, question: {
+            question, answer
+        },
     }
 }
 
-export function addQuestion(deckKey,question,answer) {
-    return {
-        type: ADD_QUESTION,
-        deckKey,question: {
-            question,answer
-        },
+export function handleDeleteDeck(deck) {
+    return (dispatch) => {
+        return removeDeck(deck).then((deck) => {
+            dispatch(deleteDeck(deck));
+        })
     }
 }

@@ -4,6 +4,9 @@ import * as Constants from "expo-constants";
 import COLORS from "../../utils/COLORS";
 //import { StackActions } from '@react-navigation/native';
 import { NavigationActions, StackActions } from 'react-navigation';
+import {connect} from "react-redux";
+import {submitQuestion} from "../../utils/api";
+import {addQuestion} from "../../actions";
 const resetAction = StackActions.reset({
     index: 0,
     key: null,
@@ -18,9 +21,15 @@ class AddQuestion extends Component {
         answer: '',
     };
     handleAddQuestion = () => {
-        // TODO handle add question
+        const {dispatch} = this.props;
+        const {question,answer} = this.state;
+        const deck = this.props.route.params.title;
+        alert("HI");
+        submitQuestion(question,answer,deck).then(() => {
+            dispatch(addQuestion(question,answer,deck));
+            this.props.navigation.navigate('DecksList')
+        });
 
-        this.props.navigation.navigate('DecksList')
     };
     onChangeText = (text, type) => {
         if (type === "q") {
@@ -104,4 +113,4 @@ const styles = StyleSheet.create({
         borderBottomWidth: StyleSheet.hairlineWidth,
     },
 });
-export default AddQuestion;
+export default connect()(AddQuestion);

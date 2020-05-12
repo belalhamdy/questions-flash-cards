@@ -3,9 +3,18 @@ import React, {Component} from "react";
 import * as Constants from "expo-constants";
 import COLORS from "../../utils/COLORS";
 import { useNavigation } from '@react-navigation/native';
+import {connect} from "react-redux";
 
 // takes Deck
 class DeckListItem extends Component {
+    state = {
+        ready: false,
+    };
+    componentDidMount() {
+        const deckTitle = this.props.deck;
+        this.deckItem = this.props.decks[deckTitle];
+        this.setState({ready: true});
+    }
     handleGoToDeck = () => {
         const {navigation,deck} = this.props;
         navigation.navigate('Deck', {
@@ -13,7 +22,8 @@ class DeckListItem extends Component {
         });
     };
     render() {
-        const {title, questions} = this.props.deck;
+        if (!this.state.ready) return <Text>Loading</Text>
+        const {title, questions} = this.deckItem;
         const count = questions.length;
         const cardWord = count === 1 ? "Card" : "Cards";
         return (
@@ -44,4 +54,9 @@ const styles = StyleSheet.create({
         borderBottomWidth: StyleSheet.hairlineWidth,
     },
 });
-export default DeckListItem;
+function mapStateToProps(decks) {
+    return {
+        decks
+    }
+}
+export default  connect(mapStateToProps,)(DeckListItem);

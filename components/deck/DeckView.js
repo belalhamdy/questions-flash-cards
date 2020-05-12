@@ -2,12 +2,24 @@ import {Alert, View, StyleSheet, Platform, TouchableOpacity, FlatList, Text, But
 import React, {Component} from "react";
 import * as Constants from "expo-constants";
 import COLORS from "../../utils/COLORS";
+import {connect} from "react-redux";
+import {deleteDeck} from "../../actions";
+import {removeDeck} from "../../utils/api";
 
 // takes the deck
 class DeckView extends Component {
+    state = {
+        ready: false,
+    };
+    componentDidMount() {
+        const deckTitle = this.props.route.params.deck;
+        this.deck = this.props.decks[deckTitle];
+        this.setState({ready: true});
+    }
+
     handleAddQuestion = () => {
         this.props.navigation.navigate('AddQuestion',{
-            title: this.props.route.params.deck.title
+            title: this.props.route.params.deck
         })
     };
     handleStartQuiz = () => {
@@ -16,12 +28,16 @@ class DeckView extends Component {
         })
     };
     handleDeleteDeck = () => {
-// TODO
+        const {dispatch} = this.props;
+        const deck = this.props.route.params.deck;
+        removeDeck(deck).then(dispatch(deleteDeck(deck)));
+        this.props.navigation.navigate('DecksList')
+
     };
 
     render() {
-        const deck = this.props.route.params.deck;
-        const {title,questions} = deck;
+        if (!this.state.ready) return <Text>Loading</Text>;
+        const {title,questions} = this.deck;
         const count =  questions.length;
 
         const questionsWord = count === 1 ? "Question" : "Questions";
@@ -36,7 +52,8 @@ class DeckView extends Component {
 
                 <View style={styles.separator}/>
 
-                <TouchableOpacity onPress={this.handleStartQuiz} style={styles.start}>
+                <TouchableOpacity disabled={count === 0}
+                    onPress={this.handleStartQuiz} style={count === 0 ? styles.disabledQuestion :styles.start}>
                     <Text style={styles.buttonText}>Start Quiz</Text>
                 </TouchableOpacity>
 
@@ -84,6 +101,11 @@ const styles = StyleSheet.create({
         padding: 10,
         alignItems: "center",
     },
+    disabledQuestion: {
+        backgroundColor: COLORS.grayGreen,
+        padding: 10,
+        alignItems: "center",
+    },
     start:{
         backgroundColor: COLORS.green,
         padding: 10,
@@ -96,4 +118,9 @@ const styles = StyleSheet.create({
         color: COLORS.red,
     },
 });
-export default DeckView;
+function mapStateToProps(decks) {
+    return {
+        decks
+    }
+}
+export default connect(mapStateToProps,)(DeckView);

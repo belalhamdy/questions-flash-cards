@@ -16,14 +16,19 @@ import reducer from './reducers'
 
 import {initializeData} from "./utils/api";
 export default class App extends React.Component{
+    state = {
+        ready:false
+    };
     componentDidMount(): void {
-        initializeData()
+        initializeData().then(r => this.setState({ready:true}));
     }
 
     render(){
       return (
           <Provider store={createStore(reducer)}>
-                  <TabNavigator/>
+              {this.state.ready &&  <TabNavigator/>}
+              {!this.state.ready &&  <Text>Loading</Text>}
+
           </Provider>
 
       );

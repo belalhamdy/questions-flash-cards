@@ -21,7 +21,7 @@ export function submitDeck(key){
     const deck = initializeDeck(key);
     return submitDeckHandler(key,deck);
 }
-function initializeDeck(key) {
+export function initializeDeck(key) {
     return {
         title: key,
         questions: []
@@ -33,7 +33,7 @@ function submitDeckHandler (key, deck) {
     }))
 }
 
-export function submitQuestion ({ question,answer,deck }) {
+export function submitQuestion (question,answer,deck) {
     return AsyncStorage.getItem(storeKey)
         .then((results) => {
             const data = JSON.parse(results);
@@ -55,7 +55,7 @@ export function removeDeck (key) {
 }
 
 export function initializeData(){
-    submitDeckHandler("React",
+    return  (submitDeckHandler("React",
         {
             title: 'React',
             questions: [
@@ -68,8 +68,7 @@ export function initializeData(){
                     answer: 'The componentDidMount lifecycle event'
                 }
             ]
-        });
-    submitDeckHandler('JavaScript',{
+        }).then(r => submitDeckHandler('JavaScript',{
         title: 'JavaScript',
         questions: [
             {
@@ -77,5 +76,9 @@ export function initializeData(){
                 answer: 'The combination of a function and the lexical environment within which that function was declared.'
             }
         ]
-    })
+    })).then( r => submitDeckHandler('Redux',{
+        title: 'Redux',
+        questions: []
+    })));
+
 }
