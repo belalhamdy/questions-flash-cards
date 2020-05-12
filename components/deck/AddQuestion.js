@@ -5,8 +5,8 @@ import COLORS from "../../utils/COLORS";
 //import { StackActions } from '@react-navigation/native';
 import { NavigationActions, StackActions } from 'react-navigation';
 import {connect} from "react-redux";
-import {submitQuestion} from "../../utils/api";
-import {addQuestion} from "../../actions";
+import {submitQuestion, wipeAsyncStorage} from "../../utils/api";
+import {addQuestion, receiveDecks} from "../../actions";
 const resetAction = StackActions.reset({
     index: 0,
     key: null,
@@ -24,7 +24,6 @@ class AddQuestion extends Component {
         const {dispatch} = this.props;
         const {question,answer} = this.state;
         const deck = this.props.route.params.title;
-        alert("HI");
         submitQuestion(question,answer,deck).then(() => {
             dispatch(addQuestion(question,answer,deck));
             this.props.navigation.navigate('DecksList')
@@ -65,7 +64,7 @@ class AddQuestion extends Component {
                 />
 
                 <View style={styles.separator}/>
-                <TouchableOpacity disabled={this.state.buttonDisable} keyboardShouldPersistTaps={'handled'}
+                <TouchableOpacity disabled={this.state.buttonDisable}
                                   style={this.state.buttonDisable ? styles.disabledQuestion : styles.addQuestion}>
                     <Text style={styles.buttonText}
                     onPress={this.handleAddQuestion}>Add Question</Text>

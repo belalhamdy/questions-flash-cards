@@ -24,7 +24,7 @@ class DeckView extends Component {
     };
     handleStartQuiz = () => {
         this.props.navigation.navigate('Quiz',{
-            deck: this.props.route.params.deck
+            deck: this.deck
         })
     };
     handleDeleteDeck = () => {
@@ -42,7 +42,7 @@ class DeckView extends Component {
 
         const questionsWord = count === 1 ? "Question" : "Questions";
         return (
-            <View style={styles.container}>
+            <View style={styles.container} >
                 <Text style={styles.title}>{title}</Text>
                 <Text style={styles.count}>{count + " " + questionsWord} </Text>
 

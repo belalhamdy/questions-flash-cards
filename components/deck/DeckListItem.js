@@ -11,8 +11,7 @@ class DeckListItem extends Component {
         ready: false,
     };
     componentDidMount() {
-        const deckTitle = this.props.deck;
-        this.deckItem = this.props.decks[deckTitle];
+
         this.setState({ready: true});
     }
     handleGoToDeck = () => {
@@ -22,7 +21,9 @@ class DeckListItem extends Component {
         });
     };
     render() {
-        if (!this.state.ready) return <Text>Loading</Text>
+        if (!this.state.ready) return <Text>Loading</Text>;
+        const deckTitle = this.props.deck;
+        this.deckItem = this.props.decks[deckTitle];
         const {title, questions} = this.deckItem;
         const count = questions.length;
         const cardWord = count === 1 ? "Card" : "Cards";

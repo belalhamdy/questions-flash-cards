@@ -5,9 +5,9 @@ function entries(state = {}, action) {
         case RECEIVE_DECKS:
             return {...state,...action.decks};
         case ADD_QUESTION:
-            return {...state, [action.deckKey]:{
-        ...state[action.deckKey], questions: state[action.deckKey].questions.concat(action.question)
-        }};
+        return {...state, [action.deckKey]:{
+                ...state[action.deckKey], questions: state[action.deckKey].questions.concat(action.question)
+            }};
         case ADD_DECK:
             return{
               ...state, [action.deckKey]: action.deck,

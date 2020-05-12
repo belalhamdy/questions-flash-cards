@@ -32,12 +32,17 @@ class DecksList extends Component {
         getAllEntries().then((decks) => dispatch(receiveDecks(decks))).then(() => this.setState(() => ({ready: true})))
 
     }
-
+    handleGoToAdd = () => {
+        this.props.navigation.navigate('Add')
+    };
     render() {
         const {decks} = this.props;
-        if (!this.state.ready) return <Text>Waiting</Text>;
+        if (!this.state.ready) return <AppLoading/>;
+        if (Object.keys(decks).length === 0) return (<TouchableOpacity style={styles.noDecks} keyboardShouldPersistTaps={'handled'} onPress={this.handleGoToAdd}>
+           <Text style={styles.noDecks}> No Decks touch here to add</Text>
+        </TouchableOpacity>);
         return (
-                <ScrollView style={styles.container}>
+                <ScrollView style={styles.container} keyboardShouldPersistTaps={'handled'}>
                     {Object.keys(decks).map((deck) => {
                         return <View key={deck}><DeckListItem key={deck} deck={deck}
                                                               navigation={this.props.navigation}/><View
@@ -59,6 +64,13 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginVertical: 8,
         color: COLORS.darkblue,
+    },
+    noDecks: {
+        fontSize: 20,
+        textAlign: 'center',
+        marginVertical: 8,
+        color: COLORS.darkblue,
+
     },
     count: {
         fontSize: 10,

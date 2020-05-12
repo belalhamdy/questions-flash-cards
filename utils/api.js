@@ -53,8 +53,11 @@ export function removeDeck (key) {
             AsyncStorage.setItem(storeKey, JSON.stringify(data))
         })
 }
-
+export function wipeAsyncStorage(){
+    AsyncStorage.clear();
+}
 export function initializeData(){
+
     return  (submitDeckHandler("React",
         {
             title: 'React',
