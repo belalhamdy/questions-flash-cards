@@ -26,7 +26,7 @@ class DecksList extends Component {
     };
     render() {
         const {decks} = this.props;
-        if (!this.state.ready) return <AppLoading/>;
+        if (!this.state.ready) return <Text>Loading</Text>;
         if (Object.keys(decks).length === 0) return (<TouchableOpacity style={styles.noDecks} keyboardShouldPersistTaps={'handled'} onPress={this.handleGoToAdd}>
            <Text style={styles.noDecks}> No Decks touch here to add</Text>
         </TouchableOpacity>);

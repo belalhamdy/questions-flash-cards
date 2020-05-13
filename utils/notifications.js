@@ -23,23 +23,16 @@ function createNotification() {
 }
 
 export function setLocalNotification() {
-    AsyncStorage.getItem(notificationsKey).then(JSON.parse).then((data) => {
+    AsyncStorage.getItem(notificationsKey).then(JSON.parse).then(async (data) => {
         if (data === null) {
-            Permissions.getAsync(Permissions.NOTIFICATIONS).then(() => {
-                Notifications.cancelAllScheduledNotificationsAsync().then(({status}) => {
-                        alert(status);
-                        if (status === 'granted') {
-
-                            let tomorrow = new Date(Date.now());
-                            tomorrow.setDate(tomorrow.getDate() + 1);
-                            tomorrow.setHours(12);
-                            tomorrow.setMinutes(0);
-                            Notifications.scheduleLocalNotificationAsync(createNotification(), {
-                                time: tomorrow, repeat: "day"
-                            })
-                        }
-                    }
-                );
+            Notifications.cancelAllScheduledNotificationsAsync().then(() => {
+                    let tomorrow = new Date(Date.now());
+                    tomorrow.setDate(tomorrow.getDate() + 1);
+                    tomorrow.setHours(12);
+                    tomorrow.setMinutes(0);
+                    Notifications.scheduleLocalNotificationAsync(createNotification(), {
+                        time: tomorrow, repeat: "day"
+                    })
             })
         }
     })
