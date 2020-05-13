@@ -1,8 +1,8 @@
-import {Alert, View, StyleSheet, Platform, TouchableOpacity, FlatList, Text, Button, TextInput} from 'react-native'
+import {StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native'
 import React, {Component} from "react";
 import * as Constants from "expo-constants";
 import COLORS from "../../utils/COLORS";
-import {removeDeck, submitDeck} from "../../utils/api";
+import {submitDeck} from "../../utils/api";
 import {connect} from "react-redux";
 import {addDeck} from "../../actions";
 

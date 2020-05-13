@@ -24,7 +24,6 @@ project.xcworkspace
 
 # Android/IntelliJ
 #
-build/
 .idea
 .gradle
 local.properties
@@ -60,3 +59,4 @@ buck-out/
 
 # Expo
 .expo/*
+/android/

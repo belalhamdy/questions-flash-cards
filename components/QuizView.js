@@ -1,7 +1,8 @@
-import {Alert, View, StyleSheet, Platform, TouchableOpacity, FlatList, Text, Button} from 'react-native'
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import React, {Component} from "react";
 import * as Constants from "expo-constants";
 import COLORS from "../utils/COLORS";
+import {clearLocalNotifications, setLocalNotification} from "../utils/notifications";
 
 // takes the deck
 class QuizView extends Component {
@@ -19,8 +20,9 @@ class QuizView extends Component {
         this.setState({showAnswer: true});
     };
     gotoNextQuestion = () => {
-        this.setState({showAnswer: false, currentIndex: this.state.currentIndex + 1}, () =>
-        {this.setState({finish: this.state.currentIndex >= this.props.route.params.deck.questions.length})});
+        this.setState({showAnswer: false, currentIndex: this.state.currentIndex + 1}, () => {
+            this.setState({finish: this.state.currentIndex >= this.props.route.params.deck.questions.length})
+        });
     };
     handleCorrect = () => {
         this.setState({correct: this.state.correct + 1}, this.gotoNextQuestion);
@@ -35,28 +37,59 @@ class QuizView extends Component {
         this.props.navigation.navigate('DecksList')
     };
     handleGoToDeck = () => {
-        const {navigation} = this.props;
         this.props.navigation.goBack(null);
     };
+
     render() {
 
 
         const {currentIndex, showAnswer, finish, correct} = this.state;
 
-        const {title,questions} = this.props.route.params.deck;
+        const {title, questions} = this.props.route.params.deck;
         const length = questions.length;
 
-        if (finish) return (
-            <View style={styles.container}>
-                <Text>Finish</Text>
-                <Text style={styles.title}>{title}</Text>
-                <Text style={styles.title}>You have solved {correct} questions!!</Text>
-                <View style={styles.separator}/>
+        if (finish) {
+            clearLocalNotifications().then(setLocalNotification);
+            return (
                 <View style={styles.container}>
-                    <TouchableOpacity onPress={this.handleAgain} style={styles.show}>
-                        <Text style={styles.buttonText}>Again</Text>
-                    </TouchableOpacity>
+                    <Text>Finish</Text>
+                    <Text style={styles.title}>{title}</Text>
+                    <Text style={styles.title}>You have solved {correct} questions!!</Text>
+                    <View style={styles.separator}/>
+                    <View style={styles.container}>
+                        <TouchableOpacity onPress={this.handleAgain} style={styles.show}>
+                            <Text style={styles.buttonText}>Again</Text>
+                        </TouchableOpacity>
 
+                        <View style={styles.separator}/>
+
+                        <TouchableOpacity onPress={this.handleGoToDeck} style={styles.show}>
+                            <Text style={styles.buttonText}>Go to Deck </Text>
+                        </TouchableOpacity>
+
+                        <View style={styles.separator}/>
+
+                        <TouchableOpacity onPress={this.handleGoToHome} style={styles.show}>
+                            <Text style={styles.buttonText}>Home</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            );
+        }
+        let question = "Not Available";
+        let answer = "Not Available";
+        if (currentIndex < length) {
+            const current = questions[currentIndex];
+            question = current.question;
+            answer = current.answer;
+        }
+
+        const questionsWord = length === 1 ? "Question" : "Questions";
+        if (length === 0) {
+            return (
+                <View style={styles.container}>
+                    <Text style={styles.title}>{title}</Text>
+                    <Text style={styles.title}>No Questions in this deck</Text>
                     <View style={styles.separator}/>
 
                     <TouchableOpacity onPress={this.handleGoToDeck} style={styles.show}>
@@ -69,38 +102,8 @@ class QuizView extends Component {
                         <Text style={styles.buttonText}>Home</Text>
                     </TouchableOpacity>
                 </View>
-            </View>
-        );
-        let question = "Not Available";
-        let answer = "Not Available";
-        if (currentIndex < length) {
-            const current = questions[currentIndex];
-            question = current.question;
-            answer = current.answer;
-        }
-
-        const questionsWord = length === 1 ? "Question" : "Questions";
-        if (length === 0){
-            return (
-                <View style={styles.container}>
-                    <Text style={styles.title}>{title}</Text>
-                    <Text style={styles.title}>No Questions in this deck</Text>
-                    <View style={styles.separator}/>
-
-                        <TouchableOpacity onPress={this.handleGoToDeck} style={styles.show}>
-                            <Text style={styles.buttonText}>Go to Deck </Text>
-                        </TouchableOpacity>
-
-                        <View style={styles.separator}/>
-
-                        <TouchableOpacity onPress={this.handleGoToHome} style={styles.show}>
-                            <Text style={styles.buttonText}>Home</Text>
-                        </TouchableOpacity>
-                    </View>
             )
-        }
-
-        else return (
+        } else return (
             <View style={styles.container}>
                 <Text>Question {currentIndex + 1} out of {length} {questionsWord}</Text>
                 <Text style={styles.title}>{title}</Text>
@@ -134,7 +137,7 @@ class QuizView extends Component {
 }
 
 const styles = StyleSheet.create({
-    allScreen:{
+    allScreen: {
         marginTop: Constants.statusBarHeight,
         flex: 1,
     },

@@ -1,12 +1,13 @@
-import {Alert, View, StyleSheet, Platform, TouchableOpacity, FlatList, Text, Button, TextInput} from 'react-native'
+import {StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native'
 import React, {Component} from "react";
 import * as Constants from "expo-constants";
 import COLORS from "../../utils/COLORS";
 //import { StackActions } from '@react-navigation/native';
-import { NavigationActions, StackActions } from 'react-navigation';
+import {NavigationActions, StackActions} from 'react-navigation';
 import {connect} from "react-redux";
-import {submitQuestion, wipeAsyncStorage} from "../../utils/api";
-import {addQuestion, receiveDecks} from "../../actions";
+import {submitQuestion} from "../../utils/api";
+import {addQuestion} from "../../actions";
+
 const resetAction = StackActions.reset({
     index: 0,
     key: null,

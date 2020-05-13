@@ -1,13 +1,12 @@
-import { AsyncStorage } from 'react-native'
+import {AsyncStorage} from 'react-native'
 
-const storeKey = "@questions-flash-cards-key";
+const storeKey = "@questions-flash-cards-key:data";
 
 
 export function getAllEntries() {
     return AsyncStorage.getItem(storeKey)
         .then((results) => {
-            const data = JSON.parse(results);
-            return data;
+            return JSON.parse(results);
         })
 }
 export function getEntry(item) {
@@ -71,7 +70,7 @@ export function initializeData(){
                     answer: 'The componentDidMount lifecycle event'
                 }
             ]
-        }).then(r => submitDeckHandler('JavaScript',{
+        }).then(()=> submitDeckHandler('JavaScript',{
         title: 'JavaScript',
         questions: [
             {
@@ -79,7 +78,7 @@ export function initializeData(){
                 answer: 'The combination of a function and the lexical environment within which that function was declared.'
             }
         ]
-    })).then( r => submitDeckHandler('Redux',{
+    })).then( () => submitDeckHandler('Redux',{
         title: 'Redux',
         questions: []
     })));

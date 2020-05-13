@@ -1,4 +1,4 @@
-import {RECEIVE_DECKS, ADD_QUESTION, DELETE_DECK, ADD_DECK} from "../actions";
+import {ADD_DECK, ADD_QUESTION, DELETE_DECK, RECEIVE_DECKS} from "../actions";
 
 function entries(state = {}, action) {
     switch (action.type) {

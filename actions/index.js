@@ -1,4 +1,3 @@
-import {exp} from "react-native-reanimated";
 import {initializeDeck, removeDeck} from "../utils/api";
 
 export const RECEIVE_DECKS = "RECEIVE_DECKS";

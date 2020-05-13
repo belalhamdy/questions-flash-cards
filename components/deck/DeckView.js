@@ -1,4 +1,4 @@
-import {Alert, View, StyleSheet, Platform, TouchableOpacity, FlatList, Text, Button} from 'react-native'
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import React, {Component} from "react";
 import * as Constants from "expo-constants";
 import COLORS from "../../utils/COLORS";
