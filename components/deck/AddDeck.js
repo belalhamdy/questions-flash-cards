@@ -13,15 +13,19 @@ class AddDeck extends Component {
         text: '',
     };
     handleAddDeck = () => {
-        // TODO: check if the deck is exists
-        const deck = this.state.text;
         const {dispatch} = this.props;
-        submitDeck(deck).then(() => {
-            dispatch(addDeck(deck));
-            this.setState({text: "", buttonDisable: true});
-            this.textInput.clear();
-            this.props.navigation.navigate('DecksList')
-        })
+        const deck = this.state.text;
+
+        if (deck in this.props.decks) alert("Cannot add this deck another deck with same name exists");
+
+        else {
+            submitDeck(deck).then(() => {
+                dispatch(addDeck(deck));
+                this.setState({text: "", buttonDisable: true});
+                this.textInput.clear();
+                this.props.navigation.navigate('DecksList')
+            })
+        }
 
     };
     onChangeText = (text) => {
@@ -37,7 +41,9 @@ class AddDeck extends Component {
                 <View style={styles.separator}/>
 
                 <TextInput
-                    ref={input => { this.textInput = input }}
+                    ref={input => {
+                        this.textInput = input
+                    }}
                     style={styles.textInput}
                     onChangeText={text => this.onChangeText(text)}
                     placeholder={"Deck Title"}
@@ -92,4 +98,11 @@ const styles = StyleSheet.create({
         borderBottomWidth: StyleSheet.hairlineWidth,
     },
 });
-export default connect()(AddDeck);
+
+function mapStateToProps(decks) {
+    return {
+        decks
+    }
+}
+
+export default connect(mapStateToProps,)(AddDeck);
