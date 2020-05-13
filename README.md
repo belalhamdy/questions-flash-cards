@@ -1,7 +1,9 @@
 # Photos
-<img src = "gitImages/1.png">
+<img src = "gitImages/1.png" width="50%" height="50%">
 <img src = "gitImages/2.png">
 <img src = "gitImages/3.png">
+<img src = "gitImages/4.png">
+<img src = "gitImages/5.png">
 
 # Prerequisites  
 * Android Studio.
