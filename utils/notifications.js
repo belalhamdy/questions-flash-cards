@@ -8,32 +8,44 @@ export function clearLocalNotifications() {
     return AsyncStorage.removeItem(notificationsKey).then(() => Notifications.cancelAllScheduledNotificationsAsync())
 }
 
-function createNotification() {
-    return {
-        title: "You forgot solving quiz today.",
-        body: "Answer quiz per day to improve yourself.",
-        ios: {
-            sound: true
-        },
-        android: {
-            sound: true,
-            vibrate: true,
-        },
-    }
-}
+const notification = {
+    title: "You forgot solving quiz today.",
+    body: "Answer quiz per day to improve yourself.",
+    ios: {
+        sound: true
+    },
+    android: {
+        sound: true,
+        vibrate: true,
+    },
+};
 
-export function setLocalNotification() {
+
+export async function setLocalNotification() {
+    const {status} = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+    if (status !== 'granted') {
+        await Permissions.askAsync(Permissions.NOTIFICATIONS);
+    }
+
     AsyncStorage.getItem(notificationsKey).then(JSON.parse).then(async (data) => {
         if (data === null) {
-            Notifications.cancelAllScheduledNotificationsAsync().then(() => {
-                    let tomorrow = new Date(Date.now());
-                    tomorrow.setDate(tomorrow.getDate() + 1);
-                    tomorrow.setHours(12);
-                    tomorrow.setMinutes(0);
-                    Notifications.scheduleLocalNotificationAsync(createNotification(), {
-                        time: tomorrow, repeat: "day"
-                    })
-            })
+            await Notifications.cancelAllScheduledNotificationsAsync();
+
+            let tomorrow = new Date(Date.now());
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            tomorrow.setHours(12);
+            tomorrow.setMinutes(0);
+            await Notifications.scheduleLocalNotificationAsync(
+                notification,
+                {
+                    time: tomorrow,
+                    repeat: 'day',
+                }
+            );
         }
     })
 }
+
+
+
+
